@@ -1,0 +1,33 @@
+### Variables ###
+# command to process m4 files
+M4 = m4
+
+# flags to use when processing m4 files
+M4FLAGS = --fatal-warnings
+
+# directories to be added to the m4 include search path
+INCLUDES = include
+
+# directory containing build artifacts
+OUTPUT = build
+
+# list of programs to build by default
+PROGRAMS = $(patsubst src/%.m4,$(OUTPUT)/%.mlog,$(wildcard src/*.m4) $(wildcard src/*/*.m4))
+
+
+### General Targets ###
+.PHONY: all clean
+
+all: $(PROGRAMS)
+
+clean:
+	rm -rf $(OUTPUT)
+
+$(OUTPUT)/%.mlog: src/%.m4
+	@mkdir --parents $(@D)
+	$(M4) $(M4FLAGS) $(patsubst %,-I %,$(INCLUDES)) $< > $@
+
+
+### Additional Include Dependencies ###
+
+### Additional Program Dependencies ###
