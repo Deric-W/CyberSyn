@@ -11,3 +11,5 @@ Markdown files and reference them from the following section using relative link
 ## Libraries
 
 [`units.m4`](./units.md)
+
+[`communication/remote-connect.m4`](./remote-connect.md)
