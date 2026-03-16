@@ -42,7 +42,7 @@ exit:
 ```
 
 
-### `remoteConnect(type, flag, x, y, setup, loop, referenceVariable)`
+### `remoteConnect(type, flag, x, y, loop, referenceVariable)`
 
 Generate a program which will handle acquiring a reference to a shared
 memory cell (or bank) and renew it should the reference become invalid.
@@ -52,21 +52,17 @@ memory cell (or bank) and renew it should the reference become invalid.
 - `type`: Type of units to bind
 - `flag`: Flag of units to bind
 - `x`, `y`: Coordinates of the shared memory cell or bank
-- `setup`: Code to be executed once at startup
 - `loop`: Code to be executed while the reference is valid
 - `referenceVariable`: Variable in which the acquired reference shall be stored
 
 #### Pseudocode
 
 ```
-setup()
-
 while (true) {
     UnitErrorContinue:
     Unit @unit = bind(type)
     BuildingError:
     remoteConnectTryAquireReference(flag, x, y, out referenceVariable, UnitError, BuildingError)
-    UnitError:
     unbind()
     
     while (referenceVariable !== null && !referenceVariable.dead) {
@@ -85,12 +81,12 @@ Write the status of a connected switch to memory:
 
 ```m4
 include(`communication/remote-connect.m4')dnl
+set input switch1
 remoteConnect(
     @flare,
     0,
     63,
     131,
-    `set input switch1',
 `sensor status input @enabled
 write status reference 0',
     reference)
@@ -100,12 +96,12 @@ Read it from memory on a different processor and apply it to a connected switch:
 
 ```m4
 include(`communication/remote-connect.m4')dnl
+set input switch1
 remoteConnect(
     @flare,
     0,
     63,
     131,
-    `set input switch1',
 `read status reference 0
 control enabled input status _ _ _',
     reference)

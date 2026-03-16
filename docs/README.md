@@ -6,6 +6,11 @@ of the code.
 When adding new programs or libraries please add their documentation as separate
 Markdown files and reference them from the following section using relative links.
 
+## Code
+
+To improve readability of the generated code any macros which generate code should
+do so without any preceding or subsequent whitespace, such as spaces or newlines.
+
 ## Programs
 
 ## Libraries
