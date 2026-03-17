@@ -23,6 +23,12 @@ generates code.
 
 [`units.m4`](./units.md)
 
+### Algorithms
+
+General-purpose algorithm implementations.
+
+[`algorithms/memory.m4`](./algorithms/memory.md)
+
 ### Communication
 
 Communication between processors.
