@@ -23,4 +23,8 @@ generates code.
 
 [`units.m4`](./units.md)
 
-[`communication/remote-connect.m4`](./remote-connect.md)
+### Communication
+
+Communication between processors.
+
+[`communication/remote-connect.m4`](./communication/remote-connect.md)

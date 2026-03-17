@@ -1,5 +1,11 @@
+include(`scope.m4')dnl
 include(`units.m4')dnl
-define(`remoteConnectTryAquireReference',`dnl
+dnl
+dnl ### remoteConnectTryAquireReference(flag, x, y, referenceVariable, unitInvalidLabel, buildingInvalidLabel)
+dnl
+define(`remoteConnectTryAquireReference',`BEGIN_SCOPE`'dnl
+LABEL(`remoteConnectLoop')dnl
+LABEL(`remoteConnectControlExit')dnl
 remoteConnectLoop:
 jumpIfFlaggedUnitIsInvalid(`@unit', `$1', `$5')
 
@@ -14,8 +20,16 @@ jump $6 equal tmp true
 ucontrol approach $2 $3 7 _ _
 jump remoteConnectLoop always _ _
 
-remoteConnectControlExit:')dnl
-define(`remoteConnect',`dnl
+remoteConnectControlExit:dnl
+END_SCOPE')dnl
+dnl
+dnl ### remoteConnect(type, flag, x, y, loop, referenceVariable) ###
+dnl
+define(`remoteConnect',`BEGIN_SCOPE`'dnl
+LABEL(`remoteConnectBindLoop')dnl
+LABEL(`remoteConnectBuildingError')dnl
+LABEL(`remoteConnectUserEventLoop')dnl
+LABEL(`remoteConnectUnitError')dnl
 remoteConnectBindLoop:
 ubind $1
 remoteConnectBuildingError:
@@ -33,4 +47,5 @@ jump remoteConnectUserEventLoop always _ _
 
 remoteConnectUnitError:
 ucontrol unbind _ _ _ _ _
-jump remoteConnectBindLoop always _ _')
+jump remoteConnectBindLoop always _ _`'dnl
+END_SCOPE')

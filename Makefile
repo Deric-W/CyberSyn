@@ -29,7 +29,7 @@ $(OUTPUT)/%.mlog: src/%.m4
 
 
 ### Additional Include Dependencies ###
-include/communication/remote-connect.m4: include/units.m4
+include/communication/remote-connect.m4: include/scope.m4 include/units.m4
 	@touch $@
 
 ### Additional Program Dependencies ###
