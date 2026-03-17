@@ -72,4 +72,15 @@ op add currentSrc currentSrc delta
 op add currentDst currentDst delta
 jump memmoveValue notEqual currentSrc endingSrc
 memmoveExit:`'dnl
+END_SCOPE')dnl
+dnl
+dnl ### swap(cellX, x, cellY, y) ###
+dnl
+define(`swap', `BEGIN_SCOPE`'dnl
+IDENTIFIER(`bufX')dnl
+IDENTIFIER(`bufY')dnl
+read bufX $1 $2
+read bufY $3 $4
+write bufX $3 $4
+write bufY $1 $2`'dnl
 END_SCOPE')

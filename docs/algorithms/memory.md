@@ -86,3 +86,22 @@ while (currentSrc != endingSrc) {
     currentDst += delta
 }
 ```
+
+### `swap(cellX, x, cellY, y)`
+
+Swaps the values at the specified indices in the specified cells.
+
+#### Arguments
+
+- `cellX`: Memory cell (or bank) containing the first value
+- `x`: Index in `cellX` containing the first value
+- `cellY`: Memory cell (or bank) containing the second value
+- `y`: Index in `cellY` containing the second value
+
+#### Pseudocode
+
+```
+Number tmp = cellX[x]
+cellX[x] = cellY[y]
+cellY[y] = tmp
+```
