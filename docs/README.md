@@ -17,6 +17,12 @@ generates code.
 
 ## Programs
 
+### Power
+
+Programs for dealing with power generation and monitoring.
+
+[`power/SCRAM.m4`](./power/SCRAM.md)
+
 ## Libraries
 
 [`scope.m4`](./scope.md)
