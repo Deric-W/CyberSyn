@@ -15,6 +15,10 @@ Any variables with the prefix `tmp` can be used by generated code at any time to
 store temporary values and therefore become invalid after invoking any macro which
 generates code.
 
+When invoking macros to generate code keep in mind that they may finish with a label,
+causing invalid jumps when not followed by any more instructions.
+To prevent this end you programs in this case with an `end` instruction.
+
 ## Programs
 
 ### Power
@@ -26,6 +30,8 @@ Programs for dealing with power generation and monitoring.
 ## Libraries
 
 [`scope.m4`](./scope.md)
+
+[`control-flow.m4`](./control-flow.md)
 
 [`units.m4`](./units.md)
 

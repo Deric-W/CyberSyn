@@ -35,4 +35,7 @@ include/communication/remote-connect.m4: include/scope.m4 include/units.m4
 include/algorithms/memory.m4: include/scope.m4
 	@touch $@
 
+include/control-flow.m4: include/scope.m4
+	@touch $@
+
 ### Additional Program Dependencies ###
