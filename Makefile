@@ -39,3 +39,4 @@ include/control-flow.m4: include/scope.m4
 	@touch $@
 
 ### Additional Program Dependencies ###
+$(OUTPUT)/power/SCRAM.mlog: include/control-flow.m4
