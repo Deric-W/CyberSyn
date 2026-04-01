@@ -51,3 +51,7 @@ of the layout specified by `name`.
 - `DISPLAY`: Layout of a [Logic Display](https://mindustry-unofficial.fandom.com/wiki/Logic_Display)
 
 - `LARGE_DISPLAY`: Layout of a [Large Logic Display](https://mindustry-unofficial.fandom.com/wiki/Large_Logic_Display)
+
+## Examples
+
+For examples see the documentation of [`graphics/borders.m4`](./borders.md#examples).

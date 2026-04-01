@@ -38,5 +38,8 @@ include/algorithms/memory.m4: include/scope.m4
 include/control-flow.m4: include/scope.m4
 	@touch $@
 
+include/graphics/borders.m4: include/graphics/layout.m4
+	@touch $@
+
 ### Additional Program Dependencies ###
 $(OUTPUT)/power/SCRAM.mlog: include/control-flow.m4
