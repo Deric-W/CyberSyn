@@ -46,3 +46,9 @@ General-purpose algorithm implementations.
 Communication between processors.
 
 [`communication/remote-connect.m4`](./communication/remote-connect.md)
+
+### Graphics
+
+Utilities for drawing on logic displays.
+
+[`graphics/layout.m4`](./graphics/layout.md)
