@@ -54,3 +54,5 @@ Utilities for drawing on logic displays.
 [`graphics/layout.m4`](./graphics/layout.md)
 
 [`graphics/borders.m4'](./graphics/borders.md)
+
+[`graphics/graphs.m4'](./graphics/graphs.md)
