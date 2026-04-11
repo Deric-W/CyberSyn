@@ -4,8 +4,9 @@ include(`graphics/layout.m4')dnl
 dnl
 dnl ### Helper Macros ###
 dnl
-define(`_assert', `ifelse(eval(`$1'), 1, `', `errprint(__program__:__file__:__line__: `Assertion $1 failed
+define(`_assert', `ifelse(eval(`$1'), 1, `', `errprint(__program__:__file__:__line__: `Assertion $1 failed: $2
 ')m4exit(`1')')')dnl
+define(`_assertPartition', `_assert(0 <= $2 && $2 < _GRAPH_CONFIG_$1_PARTITIONS, `invalid partition')')dnl
 define(`_min', `ifelse(eval(`$1 <= $2'), 1, `$1', `$2')')dnl
 define(`_divUp', `eval(`(($1) + ($2) - 1) / ($2)')')dnl
 define(`_isqrt', `ifelse(
@@ -21,8 +22,8 @@ define(`_isqrtUp', `__isqrtUp(_isqrt(`$1'), `$1')')dnl
 define(`__isqrtUp', `ifelse(eval(`$1 ** 2'), `$2', `$1', `eval(`$1 + 1')')')dnl
 define(`_partitionStart', `eval(_divUp(`$1', `$2') * $3)')dnl
 define(`_partitionEnd', `_min(_partitionStart(`$1', `$2', eval(`$3 + 1')), `$1')')dnl
-define(`_GRAPH_INTERVAL_PARTITION_START', `_assert($2 < _GRAPH_CONFIG_$1_PARTITIONS)_partitionStart(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
-define(`_GRAPH_INTERVAL_PARTITION_END', `_assert($2 < _GRAPH_CONFIG_$1_PARTITIONS)_partitionEnd(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
+define(`_GRAPH_INTERVAL_PARTITION_START', `_assertPartition(`$1', `$2')_partitionStart(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
+define(`_GRAPH_INTERVAL_PARTITION_END', `_assertPartition(`$1', `$2')_partitionEnd(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
 dnl
 dnl ### GRAPH_CONFIG(name, attribute, value) ###
 dnl
@@ -38,11 +39,11 @@ define(`GRAPH_PADDING', `eval(_isqrtUp(eval(((_GRAPH_CONFIG_$1_STROKE / 2) ** 2)
 dnl
 dnl ### GRAPH_PARTITION_START(name, number) ###
 dnl
-define(`GRAPH_PARTITION_START', `_assert($2 < _GRAPH_CONFIG_$1_PARTITIONS)_partitionStart(_GRAPH_CONFIG_$1_POINTS, _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
+define(`GRAPH_PARTITION_START', `_assertPartition(`$1', `$2')_partitionStart(_GRAPH_CONFIG_$1_POINTS, _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
 dnl
 dnl ### GRAPH_PARTITION_END(name, number) ###
 dnl
-define(`GRAPH_PARTITION_END', `_assert($2 < _GRAPH_CONFIG_$1_PARTITIONS)_partitionEnd(_GRAPH_CONFIG_$1_POINTS, _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
+define(`GRAPH_PARTITION_END', `_assertPartition(`$1', `$2')_partitionEnd(_GRAPH_CONFIG_$1_POINTS, _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
 dnl
 dnl ### graphNext(name, current, resultVariable, [delta]) ###
 dnl
