@@ -45,4 +45,6 @@ include/graphics/graph.m4: include/scope.m4 include/control-flow.m4 include/grap
 	@touch $@
 
 ### Additional Program Dependencies ###
+$(OUTPUT)/transport/export.mlog: include/control-flow.m4
+
 $(OUTPUT)/power/SCRAM.mlog: include/control-flow.m4
