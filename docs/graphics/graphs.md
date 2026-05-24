@@ -9,6 +9,11 @@ being passed to the macros.
 The graph can be split into multiple partitions, which can be drawn by individual
 processors and then flushed to a shared logic display.
 
+To prevent empty spaces the lines of the graphs will be drawn in such a way that
+they align with the pixel boundaries (like the lines created by `draw lineRect`).
+To prevent code changes or processor restarts from messing up the drawing state
+of the processor `draw reset` should be executed on every draw loop iteration.
+
 ## Macros
 
 ### `GRAPH_CONFIG(name, attribute, value)`
@@ -17,6 +22,12 @@ Configure an attribute with the specified value on a graph configuration with
 the specified name.
 
 A list of available attributes is available under [Configuration Attributes](#configuration-attributes).
+
+### `GRAPH_GET_CONFIG(name, attribute)`
+
+Get the value associated with an attribute of a graph configuration.
+
+If the attribute is missing the result is empty.
 
 ### `GRAPH_PARTITION_START(name, number)`
 
@@ -122,6 +133,7 @@ LAYOUT_SUBDIVIDE(`inner', `RIGHT', GRAPH_WIDTH(`graph'), `right', `left')dnl
 dnl
 set current 0
 drawLoop:
+draw reset
 draw clear 0 0 0
 graphPreparePartition(`graph', 0, cell1, 0, prepared)
 

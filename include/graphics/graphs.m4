@@ -29,9 +29,13 @@ dnl ### GRAPH_CONFIG(name, attribute, value) ###
 dnl
 define(`GRAPH_CONFIG', `define(`_$0_$1_$2', `$3')')dnl
 dnl
+dnl ### GRAPH_GET_CONFIG(name, attribute) ###
+dnl
+define(`GRAPH_GET_CONFIG', `defn(`_GRAPH_CONFIG_$1_$2')')dnl
+dnl
 dnl ### GRAPH_WIDTH(name) ###
 dnl
-define(`GRAPH_WIDTH', `eval((_GRAPH_CONFIG_$1_POINTS - 1) * _GRAPH_CONFIG_$1_POINT_DISTANCE)')dnl
+define(`GRAPH_WIDTH', `eval(((_GRAPH_CONFIG_$1_POINTS - 1) * _GRAPH_CONFIG_$1_POINT_DISTANCE) + 1)')dnl
 dnl
 dnl ### GRAPH_PADDING(name) ###
 dnl
@@ -77,8 +81,8 @@ define(`_graphCalculatePointY', `dnl
 op add $6 $1 $3
 read $6 $2 $6
 op div $6 $6 $4
-op mul $6 $6 LAYOUT_HEIGHT(`$5')
-op add $6 $6 LAYOUT_Y(`$5')`'dnl
+op mul $6 $6 eval((LAYOUT_HEIGHT(`$5') - 1) * 2)
+op add $6 $6 eval(LAYOUT_Y(`$5') * 2)`'dnl
 ')dnl
 dnl
 dnl ### graphDrawPartition(name, number, current, prepareState, cell, offset, layout) ###
@@ -90,9 +94,11 @@ IDENTIFIER(`currentX')dnl
 IDENTIFIER(`currentY')dnl
 graphNext(`$1', `$3', index, eval(_GRAPH_INTERVAL_PARTITION_START(`$1', `$2') + 1))
 graphNext(`$1', `$3', until, eval(_GRAPH_INTERVAL_PARTITION_END(`$1', `$2') + 1))
-set currentX eval(LAYOUT_X(`$7') + (_GRAPH_CONFIG_$1_POINT_DISTANCE * _GRAPH_INTERVAL_PARTITION_START(`$1', `$2')))
+set currentX eval((LAYOUT_X(`$7') + (_GRAPH_CONFIG_$1_POINT_DISTANCE * _GRAPH_INTERVAL_PARTITION_START(`$1', `$2'))) * 2)
 _graphCalculatePointY(index, `$5', `$6', `$4', `$7', currentY)
-draw stroke _GRAPH_CONFIG_$1_STROKE
+draw stroke eval(_GRAPH_CONFIG_$1_STROKE * 2)
+draw scale 0.5 0.5
+draw translate 1 1
 DOWHILELOOP(index, notEqual, until, `dnl
 IDENTIFIER(`prevX')dnl
 IDENTIFIER(`prevY')dnl
@@ -100,8 +106,10 @@ set prevX currentX
 set prevY currentY
 graphNext(`$1', index, index)
 _graphCalculatePointY(index, `$5', `$6', `$4', `$7', currentY)
-op add currentX currentX _GRAPH_CONFIG_$1_POINT_DISTANCE
-draw line prevX prevY currentX currentY')`'dnl
+op add currentX currentX eval(_GRAPH_CONFIG_$1_POINT_DISTANCE * 2)
+draw line prevX prevY currentX currentY')
+draw translate -1 -1
+draw scale 2 2`'dnl
 END_SCOPE')')dnl
 dnl
 dnl ### graphMaskPadding(name, layout) ###
