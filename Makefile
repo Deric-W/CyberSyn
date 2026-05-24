@@ -41,7 +41,7 @@ include/control-flow.m4: include/scope.m4
 include/graphics/borders.m4: include/graphics/layout.m4
 	@touch $@
 
-include/graphics/graph.m4: include/scope.m4 include/control-flow.m4 include/graphics/layout.m4
+include/graphics/graphs.m4: include/scope.m4 include/control-flow.m4 include/graphics/layout.m4
 	@touch $@
 
 ### Additional Program Dependencies ###
