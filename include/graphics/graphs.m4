@@ -1,27 +1,13 @@
+include(`comptime.m4')dnl
 include(`scope.m4')dnl
 include(`control-flow.m4')dnl
 include(`graphics/layout.m4')dnl
 dnl
 dnl ### Helper Macros ###
 dnl
-define(`_assert', `ifelse(eval(`$1'), 1, `', `errprint(__program__:__file__:__line__: `Assertion $1 failed: $2
-')m4exit(`1')')')dnl
-define(`_assertPartition', `_assert(0 <= $2 && $2 < _GRAPH_CONFIG_$1_PARTITIONS, `invalid partition')')dnl
-define(`_min', `ifelse(eval(`$1 <= $2'), 1, `$1', `$2')')dnl
-define(`_divUp', `eval(`(($1) + ($2) - 1) / ($2)')')dnl
-define(`_isqrt', `ifelse(
-`$1', 0, 0,
-`__isqrt(-1, 1, eval(`(1 + $1) / 2'), `$1')'dnl
-)')dnl
-define(`__isqrt', `ifelse(
-`$3', `$2', `$3',
-`$3', `$1', `_min(`$2', `$3')',
-`$0(`$2', `$3', eval(`($3 + ($4 / $3)) / 2'), `$4')')dnl
-')dnl
-define(`_isqrtUp', `__isqrtUp(_isqrt(`$1'), `$1')')dnl
-define(`__isqrtUp', `ifelse(eval(`$1 ** 2'), `$2', `$1', `eval(`$1 + 1')')')dnl
-define(`_partitionStart', `eval(_divUp(`$1', `$2') * $3)')dnl
-define(`_partitionEnd', `_min(_partitionStart(`$1', `$2', eval(`$3 + 1')), `$1')')dnl
+define(`_assertPartition', `COMPTIME_ASSERT(0 <= $2 && $2 < _GRAPH_CONFIG_$1_PARTITIONS, `invalid partition')')dnl
+define(`_partitionStart', `eval(COMPTIME_DIV_UP(`$1', `$2') * $3)')dnl
+define(`_partitionEnd', `COMPTIME_MIN(_partitionStart(`$1', `$2', eval(`$3 + 1')), `$1')')dnl
 define(`_GRAPH_INTERVAL_PARTITION_START', `_assertPartition(`$1', `$2')_partitionStart(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
 define(`_GRAPH_INTERVAL_PARTITION_END', `_assertPartition(`$1', `$2')_partitionEnd(eval(_GRAPH_CONFIG_$1_POINTS - 1), _GRAPH_CONFIG_$1_PARTITIONS, `$2')')dnl
 dnl
@@ -39,7 +25,7 @@ define(`GRAPH_WIDTH', `eval(((_GRAPH_CONFIG_$1_POINTS - 1) * _GRAPH_CONFIG_$1_PO
 dnl
 dnl ### GRAPH_PADDING(name) ###
 dnl
-define(`GRAPH_PADDING', `eval(_isqrtUp(eval(((_GRAPH_CONFIG_$1_STROKE / 2) ** 2) * 2)))')dnl
+define(`GRAPH_PADDING', `eval(COMPTIME_ISQRT_UP(eval(((_GRAPH_CONFIG_$1_STROKE / 2) ** 2) * 2)))')dnl
 dnl
 dnl ### GRAPH_PARTITION_START(name, number) ###
 dnl

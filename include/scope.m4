@@ -1,8 +1,7 @@
+include(`comptime.m4')dnl
 dnl
 dnl ### Helper macros ###
 dnl
-define(`_forloop', `pushdef(`$1', `$2')__forloop($@)popdef(`$1')')dnl
-define(`__forloop', `ifelse($1, `$3', `', `$4`'define(`$1', incr($1))$0($@)')')dnl
 define(`_add1', `define(`$1', incr($1))')dnl
 dnl
 dnl ### global Variables ###
@@ -23,11 +22,11 @@ dnl ### END_SCOPE
 dnl
 define(`END_SCOPE',`dnl
 define(`TOTAL_DEFINITIONS', eval(TOTAL_DEFINITIONS-DEFINITIONS_IN_SCOPE))dnl
-_forloop(_, 0, DEFINITIONS_IN_SCOPE, `dnl
+COMPTIME_FORLOOP(_, 0, DEFINITIONS_IN_SCOPE, 1, `dnl
 undefine(defn(`SCOPE_IDENTIFIERS'))dnl
 popdef(`SCOPE_IDENTIFIERS')dnl
 ')dnl
-_forloop(_, 0, SCOPE_SHADOWED_COUNT, `dnl
+COMPTIME_FORLOOP(_, 0, SCOPE_SHADOWED_COUNT, 1, `dnl
 define(defn(`SCOPE_SHADOWED_IDENTIFIERS'), defn(`SCOPE_SHADOWED_VALUES'))dnl
 popdef(`SCOPE_SHADOWED_IDENTIFIERS')dnl
 popdef(`SCOPE_SHADOWED_VALUES')dnl

@@ -37,6 +37,8 @@ Programs for dealing with power generation and monitoring.
 
 [`scope.m4`](./scope.md)
 
+[`comptime.m4`](./comptime.md)
+
 [`control-flow.m4`](./control-flow.md)
 
 [`units.m4`](./units.md)

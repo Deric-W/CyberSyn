@@ -29,6 +29,9 @@ $(OUTPUT)/%.mlog: src/%.m4
 
 
 ### Additional Include Dependencies ###
+include/scope.m4: include/comptime.m4
+	@touch $@
+
 include/communication/remote-connect.m4: include/scope.m4 include/units.m4
 	@touch $@
 
@@ -41,7 +44,10 @@ include/control-flow.m4: include/scope.m4
 include/graphics/borders.m4: include/graphics/layout.m4
 	@touch $@
 
-include/graphics/graphs.m4: include/scope.m4 include/control-flow.m4 include/graphics/layout.m4
+include/graphics/graphs.m4: include/comptime.m4 \
+							include/scope.m4 \
+							include/control-flow.m4 \
+							include/graphics/layout.m4
 	@touch $@
 
 ### Additional Program Dependencies ###
