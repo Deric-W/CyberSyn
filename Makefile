@@ -19,6 +19,8 @@ PROGRAMS = $(patsubst src/%.m4,$(OUTPUT)/%.mlog,$(wildcard src/*.m4) $(wildcard 
 ### General Targets ###
 .PHONY: all clean
 
+.DELETE_ON_ERROR:
+
 all: $(PROGRAMS)
 
 clean:
