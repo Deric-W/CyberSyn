@@ -23,7 +23,7 @@ To remove all generated files run `make clean`.
 The code is contained in `.m4` files which actually contain instructions for the
 [m4 macro processor][m4], making advanced use cases such as code reuse possible.
 
-These files are organized into two directories: `src` and `include`.
+These files are organized into three directories: `src`, `templates` and `include`.
 
 #### Programs
 
@@ -33,6 +33,14 @@ according to the [instructions](#building).
 
 These files may want to reuse existing code, which is explained in the following
 section.
+
+#### Templates
+
+Files which are intended to produce actual logic programs like the ones in `src`,
+but require some additional definitions being passed to m4 are placed in the `templates`
+directory.
+
+They allow multiple `.mlog` files with similar contents to share source files.
 
 #### Libraries
 

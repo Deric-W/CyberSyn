@@ -33,6 +33,10 @@ Programs for dealing with power generation and monitoring.
 
 [`power/SCRAM.m4`](./power/SCRAM.md)
 
+[`power/graph-small.mlog`](./power/graph-small.md)
+
+[`power/graph-large.mlog`](./power/graph-large.md)
+
 ## Libraries
 
 [`scope.m4`](./scope.md)
@@ -64,3 +68,9 @@ Utilities for drawing on logic displays.
 [`graphics/borders.m4'](./graphics/borders.md)
 
 [`graphics/graphs.m4'](./graphics/graphs.md)
+
+### Power
+
+Utilities used by the programs dealing with power generation and monitoring.
+
+[`power/graph.m4`](./power/graph.md)
