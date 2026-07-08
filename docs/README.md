@@ -59,6 +59,8 @@ Communication between processors.
 
 [`communication/remote-connect.m4`](./communication/remote-connect.md)
 
+[`communication/sync/workers.m4`](./communication/sync/workers.md)
+
 ### Graphics
 
 Utilities for drawing on logic displays.

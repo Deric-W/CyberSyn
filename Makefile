@@ -38,6 +38,9 @@ include/scope.m4: include/comptime.m4
 include/communication/remote-connect.m4: include/scope.m4 include/units.m4
 	@touch $@
 
+include/communication/sync/workers.m4: include/scope.m4 include/comptime.m4
+	@touch $@
+
 include/algorithms/memory.m4: include/scope.m4
 	@touch $@
 
