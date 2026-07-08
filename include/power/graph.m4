@@ -1,21 +1,10 @@
 include(`scope.m4')dnl
 include(`control-flow.m4')dnl
 include(`algorithms/memory.m4')dnl
+include(`communication/sync/workers.m4')dnl
 include(`graphics/layout.m4')dnl
 include(`graphics/borders.m4')dnl
 include(`graphics/graphs.m4')dnl
-dnl
-dnl
-dnl ### Commands ###
-dnl
-define(`_POWER_GRAPH_CMD_VARIABLE', `powerGraphCmd')dnl
-define(`_POWER_GRAPH_CMD_ARG1', `powerGraphCmdArg1')dnl
-define(`_POWER_GRAPH_CMD_ARG2', `powerGraphCmdArg2')dnl
-define(`_POWER_GRAPH_CMD_RESULT', `powerGraphCmdResult')dnl
-define(`_POWER_GRAPH_CMD_IDLE', 0)dnl
-define(`_POWER_GRAPH_CMD_PREPARE', 1)dnl
-define(`_POWER_GRAPH_CMD_DRAW', 2)dnl
-define(`_POWER_GRAPH_CMD_FLUSH', 3)dnl
 dnl
 dnl ### POWER_GRAPH_CONFIG(name, attribute, value) ###
 dnl
@@ -70,43 +59,25 @@ END_SCOPE')dnl
 dnl
 dnl ### powerGraphStartPreparation(worker) ###
 dnl
-define(`powerGraphStartPreparation', `write _POWER_GRAPH_CMD_PREPARE $1 "_POWER_GRAPH_CMD_VARIABLE"')dnl
+define(`powerGraphStartPreparation', `workerSubmitTask(`$1', "_POWER_GRAPH_CMD_PREPARE")')dnl
 dnl
 dnl ### powerGraphStartDraw(currentVariable, prepareState, worker) ###
 dnl
 define(`powerGraphStartDraw', `dnl
-write $1 $3 "_POWER_GRAPH_CMD_ARG1"
-write $2 $3 "_POWER_GRAPH_CMD_ARG2"
-write _POWER_GRAPH_CMD_DRAW $3 "_POWER_GRAPH_CMD_VARIABLE"`'dnl
+write $1 $3 "WORKER_ARG(0)"
+write $2 $3 "WORKER_ARG(1)"
+workerSubmitTask(`$3', "_POWER_GRAPH_CMD_DRAW")`'dnl
 ')dnl
 dnl
 dnl ### powerGraphStartFlush(worker) ###
 dnl
-define(`powerGraphStartFlush', `write _POWER_GRAPH_CMD_FLUSH $1 "_POWER_GRAPH_CMD_VARIABLE"')dnl
-dnl
-dnl ### powerGraphTryWaitWorker(worker, pendingLabel) ###
-dnl
-define(`powerGraphTryWaitWorker', `BEGIN_SCOPE`'dnl
-IDENTIFIER(`tmp')dnl
-read tmp $1 "_POWER_GRAPH_CMD_VARIABLE"
-op strictEqual tmp tmp _POWER_GRAPH_CMD_IDLE
-jump $2 equal tmp false`'dnl
-END_SCOPE')dnl
-dnl
-dnl ### powerGraphResetWorker(worker) ###
-dnl
-define(`powerGraphResetWorker', `dnl
-control enabled $1 false
-write 0 $1 "@counter"
-write _POWER_GRAPH_CMD_IDLE $1 "_POWER_GRAPH_CMD_VARIABLE"
-control enabled $1 true`'dnl
-')dnl
+define(`powerGraphStartFlush', `workerSubmitTask(`$1', "_POWER_GRAPH_CMD_FLUSH")')dnl
 dnl
 dnl ### powerGraphMergePreparationResults(partitionResult, worker, resultVariable) ###
 dnl
 define(`powerGraphMergePreparationResults', `BEGIN_SCOPE`'dnl
 IDENTIFIER(`result')dnl
-read result $2 "_POWER_GRAPH_CMD_RESULT"
+read result $2 "WORKER_ARG(0)"
 op max $3 $1 result`'dnl
 END_SCOPE')dnl
 dnl
@@ -245,10 +216,7 @@ dnl
 dnl ### powerGraphWorkerInit() ###
 dnl
 define(`powerGraphWorkerInit', `dnl
-set _POWER_GRAPH_CMD_ARG1 null
-set _POWER_GRAPH_CMD_ARG2 null
-set _POWER_GRAPH_CMD_RESULT null
-set _POWER_GRAPH_CMD_VARIABLE _POWER_GRAPH_CMD_IDLE
+workerInit(0, 1)
 drawflush null`'dnl
 ')dnl
 dnl
@@ -263,25 +231,29 @@ BORDER_INNER_LAYOUT(
     POWER_GRAPH_GET_CONFIG(`$4', `GRAPH_BORDER'),
     POWER_GRAPH_GET_CONFIG(`$4', `GRAPH_LAYOUT'),
     `_POWER_GRAPH_GRAPH_TMP_INNER_LAYOUT')dnl
-jump prepareCmd strictEqual _POWER_GRAPH_CMD_VARIABLE _POWER_GRAPH_CMD_PREPARE
-jump drawCmd strictEqual _POWER_GRAPH_CMD_VARIABLE _POWER_GRAPH_CMD_DRAW
-jump flushCmd strictEqual _POWER_GRAPH_CMD_VARIABLE _POWER_GRAPH_CMD_FLUSH
+BEGIN_SCOPE`'dnl
+IDENTIFIER(`task')dnl
+workerPollTask(task, `$5')
+jump prepareCmd strictEqual task "_POWER_GRAPH_CMD_PREPARE"
+jump drawCmd strictEqual task "_POWER_GRAPH_CMD_DRAW"
+jump flushCmd strictEqual task "_POWER_GRAPH_CMD_FLUSH"
+END_SCOPE`'dnl
 jump $5 always
 
 prepareCmd:
-powerGraphPrepare(`$1', `$4', _POWER_GRAPH_CMD_RESULT)
+powerGraphPrepare(`$1', `$4', WORKER_ARG(0))
 jump afterCmd always
 
 drawCmd:
 draw reset
-powerGraphDraw(`$1', _POWER_GRAPH_CMD_ARG1, _POWER_GRAPH_CMD_ARG2, `$3', `$4')
+powerGraphDraw(`$1', WORKER_ARG(0), WORKER_ARG(1), `$3', `$4')
 jump afterCmd always
 
 flushCmd:
 drawflush $2
 
 afterCmd:
-set _POWER_GRAPH_CMD_VARIABLE _POWER_GRAPH_CMD_IDLE`'dnl
+workerFinishTask()`'dnl
 END_SCOPE')dnl
 dnl
 dnl ### Predefined POWER_GRAPH_LOGIC_DISPLAY Configuration ###

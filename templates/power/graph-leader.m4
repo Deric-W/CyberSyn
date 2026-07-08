@@ -1,5 +1,6 @@
 include(`comptime.m4')dnl
 include(`scope.m4')dnl
+include(`communication/sync/workers.m4')dnl
 include(`power/graph.m4')dnl
 define(`message', `message1')dnl
 define(`switch', `switch1')dnl
@@ -8,10 +9,10 @@ define(`display', `display1')dnl
 define(`waitWorkers', `COMPTIME_FOREACH(`worker', defn(`TEMPLATE_WORKERS'), `BEGIN_SCOPE`'dnl
 LABEL(`retryWait')dnl
 retryWait:
-powerGraphTryWaitWorker(worker, retryWait)
+workerPollReady(worker, retryWait)
 END_SCOPE')')dnl
 define(`resetWorkers', `COMPTIME_FOREACH(`worker', defn(`TEMPLATE_WORKERS'), `dnl
-powerGraphResetWorker(worker)
+workerReset(worker)
 ')')dnl
 define(`startPreparationWorkers', `COMPTIME_FOREACH(`worker', defn(`TEMPLATE_WORKERS'), `dnl
 powerGraphStartPreparation(worker)
@@ -29,6 +30,7 @@ dnl
 init:
 drawflush null
 resetWorkers()
+waitWorkers()
 powerGraphInit(current, TEMPLATE_CONFIG)
 control enabled switch false
 

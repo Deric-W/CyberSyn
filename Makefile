@@ -59,6 +59,7 @@ include/graphics/graphs.m4: include/comptime.m4 \
 include/power/graph.m4: include/scope.m4 \
 						include/control-flow.m4 \
 						include/algorithms/memory.m4 \
+						include/communication/sync/workers.m4 \
 						include/graphics/layout.m4 \
 						include/graphics/borders.m4 \
 						include/graphics/graphs.m4
@@ -71,6 +72,7 @@ templates/power/graph-worker.m4: include/power/graph.m4
 
 templates/power/graph-leader.m4: include/comptime.m4 \
 									include/scope.m4 \
+									include/communication/sync/workers.m4 \
 									include/power/graph.m4
 	@touch $@
 

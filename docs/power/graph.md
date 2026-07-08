@@ -54,15 +54,6 @@ Start the flushing of the draw commands on the processor passed as `worker`.
 The results of [`powerGraphBeginDraw`](#powergraphbegindrawcurrentvariable-config)
 have to be flushed before any other workers flush their commands.
 
-### `powerGraphTryWaitWorker(worker, pendingLabel)`
-
-Wait for the processor passed as `worker` to finish processing its current command,
-jumping to `pendingLabel` if it is not finished yet.
-
-### `powerGraphResetWorker(worker)`
-
-Reset the state of the processor passed as `worker`, canceling any pending commands.
-
 ### `powerGraphMergePreparationResults(partitionResult, worker, resultVariable)`
 
 Wrapper around [`graphMergePreparationResults`](../graphics/graphs.md#graphmergepreparationresultspartitionresult1-partitionresult2-resultvariable)
