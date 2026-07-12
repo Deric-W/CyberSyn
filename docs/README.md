@@ -61,6 +61,8 @@ Communication between processors.
 
 [`communication/sync/workers.m4`](./communication/sync/workers.md)
 
+[`communication/sync/classroom.m4`](./communication/sync/classroom.md)
+
 ### Graphics
 
 Utilities for drawing on logic displays.
