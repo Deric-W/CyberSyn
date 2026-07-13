@@ -21,6 +21,8 @@ To prevent this end you programs in this case with an `end` instruction.
 
 ## Programs
 
+[`debugger.m4`](./debugger.md)
+
 ### Transport
 
 Programs for dealing with transporting things, like items or payloads.
@@ -38,6 +40,8 @@ Programs for dealing with power generation and monitoring.
 [`power/graph-large.mlog`](./power/graph-large.md)
 
 ## Libraries
+
+[`assert.m4`](./assert.md)
 
 [`scope.m4`](./scope.md)
 

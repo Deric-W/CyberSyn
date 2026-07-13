@@ -14,6 +14,8 @@ the following tools are required to obtain them (assuming a POSIX system):
 Running `make all` will build all programs and place them in a `build` directory,
 while running `make build/name-of-program.m4` will only build a specific program.
 
+To build with [assertions](./docs/assert.md) pass `DEBUG=1` to make.
+
 To remove all generated files run `make clean`.
 
 ## Structure
